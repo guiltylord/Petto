@@ -1,20 +1,25 @@
 from fastapi import FastAPI
-from fastapi_users import fastapi_users
+from fastapi.responses import HTMLResponse
+from fastapi.exceptions import ValidationException
+from src.html import html
 
-from src.auth.base_config import auth_backend
 app = FastAPI(
     title="Petto"
 )
 
-app.include_router(
-    fastapi_users.get_auth_router(auth_backend),
-    prefix="/auth/jwt",
-    tags=["auth"],
-)
+fake_users = {
+    1 : "Bob"
+}
+@app.get("/")
+def get_hello():
+    return (HTMLResponse(html))
 
-app.include_router(
-    fastapi_users.get_register_router(),
-    prefix="/auth",
-    tags=["Auth"],
-)
+@app.get("/users/{user_id}")
+def get_user(user_id):
+    return fake_users.get("1")
+
+@app.post("/users/{user_id}")
+def change_name(user_id: int, new_name):
+    fake_users[user_id] =  new_name
+    return fake_users.get(user_id)
 
