@@ -1,16 +1,14 @@
-from typing import List
+from fastapi import Depends
+from fastapi import FastAPI, WebSocket
+from fastapi_users import FastAPIUsers
 
-from fastapi import FastAPI, Depends
-from fastapi.responses import HTMLResponse
-from fastapi_users import fastapi_users, FastAPIUsers
+from src.admin.router import router as router_admin
 
+# from src.admin.htmlAdmin import htmlAdmin
 from src.auth.base_config import auth_backend
 from src.auth.manager import get_user_manager
 from src.auth.schemas import UserCreate, UserRead
 from src.database import User
-
-from fastapi import FastAPI, WebSocket
-from fastapi.responses import HTMLResponse
 
 app = FastAPI(title="Petto")
 
@@ -56,3 +54,14 @@ def protected_route(user: User = Depends(current_user)):
 @app.get("/unprotected-route")
 def protected_route(user: User = Depends(current_user)):
     return f"Hello, noname"
+
+
+app.include_router(router_admin)
+
+
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    while True:
+        data = await websocket.receive_text()
+        await websocket.send_text(f"Message text was: {data}")
