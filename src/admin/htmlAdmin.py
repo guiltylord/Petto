@@ -7,12 +7,11 @@ htmlAdmin = """
     <body>
         <h1>WebSocket Chat</h1>
         
+        <input type="number" id="userID" placeholder="Введите id user" autocomplete="off"/>
         
-        <button onclick="sendHashUser()">Узнать хэш юзера</button>
-        <button onclick="sendUserWeight()">Узнать вес юзера</button>
-        <button onclick="sendCountUsers()">Count of users</button>
-        
-        <input type="number" id="userInfo" placeholder="Введите id user" autocomplete="off"/>
+        <button onclick="sendHashUserQuery()">Хэш пароля юзера</button>
+        <button onclick="sendUserWeightQuery()">Место, занимаемое юзером на диске</button>
+        <button onclick="sendCountUsers()">Количество зарегистрированных пользователей</button>
         <button onclick="sendUserRequest()">Получить пользователя по id</button>
         
         <input type="text" id="echoText" placeholder="Введите строку" autocomplete="off"/>
@@ -32,8 +31,8 @@ htmlAdmin = """
                 messages.appendChild(message);
             };
 
-            function sendHashUser() {
-                var idInput = document.getElementById("userInfo");
+            function sendHashUserQuery() {
+                var idInput = document.getElementById("userID");
                 ws.send("get_hash_user:" + idInput.value); // Отправляем команду с данными
             }
 
@@ -48,14 +47,14 @@ htmlAdmin = """
             }
             
             function sendUserRequest() {
-                var idInput = document.getElementById("userInfo");
+                var idInput = document.getElementById("userID");
                 ws.send("get_user_data:" + idInput.value); // Отправляем команду с данными
                 idInput.value = '';
             }
             
-            function sendUserWeight() {
-                var idInput = document.getElementById("userInfo");
-                ws.send("calculate_user_row_size:" + idInput.value); // Отправляем команду с данными
+            function sendUserWeightQuery() {
+                var idInput = document.getElementById("userID");
+                ws.send("user_weight:" + idInput.value); // Отправляем команду с данными
                 idInput.value = '';
             }
 

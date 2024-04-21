@@ -1,14 +1,18 @@
+# dao.py – DAO (Data Access Object) является распространённым шаблоном и подходит для файлов,
+# содержащих классы или функции, которые производят непосредственный доступ к данным.
+
 from src.database import async_session_maker, User
 
 
-async def get_row_count():
+# TODO: сделать проверку исключений чтоб сервак не падал
+async def getRowCount():
     async with async_session_maker() as session:
         result = await session.execute(select(func.count()).select_from(User))
         count = result.scalar_one()
         return count
 
 
-async def get_hash_user(user_id: int):
+async def getHashUser(user_id: int):
     async with async_session_maker() as session:
         query = select(User).where(User.id == user_id)
         result = await session.execute(query)
@@ -18,7 +22,7 @@ async def get_hash_user(user_id: int):
         return user_data
 
 
-async def get_user_data(user_id: int):
+async def getUserInfo(user_id: int):
     async with async_session_maker() as session:
         query = select(User).where(User.id == user_id)
         result = await session.execute(query)
@@ -44,7 +48,7 @@ async def get_user_data(user_id: int):
 from sqlalchemy import select, func
 
 
-async def calculate_user_row_size(user_id: int):
+async def getUserWeight(user_id: int):
     async with async_session_maker() as session:
         # Сначала извлекаем пользователя по ID
         stmt = select(User).where(User.id == user_id)
