@@ -1,13 +1,8 @@
-from typing import List
-
-from fastapi import APIRouter, Depends
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import APIRouter
 from starlette.responses import HTMLResponse
+from starlette.websockets import WebSocket, WebSocketDisconnect
 
 from src.admin.htmlAdmin import htmlAdmin
-from src.auth.models import user
-from src.database import get_async_session
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 
@@ -17,10 +12,30 @@ async def get_info():
     return HTMLResponse(htmlAdmin)
 
 
-# @router.get("/")
-# async def get_specific_operations(
-#     user_id: int, session: AsyncSession = Depends(get_async_session)
-# ):
-#     query = select(user).where(user.c.id == user_id)
-#     result = await session.execute(query)
-#     return result.all()
+def get_user_count():
+    return "1 fu"
+
+
+def another_function():
+    return "2 fu"
+
+
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    try:
+        while True:
+            data = await websocket.receive_text()
+
+            # Разделяем сообщение на команду и данные
+            command, _, message_data = data.partition(":")
+
+            if command == "get_user_count":
+                user_count = get_user_count()
+                await websocket.send_text(f"Количество пользователей: {user_count}")
+            elif command == "sendAnother":
+                result = another_function()
+                await websocket.send_text(f"Результат другой команды: {result}")
+            elif command == "getEcho":
+                await websocket.send_text(f"Эхо: {message_data}")
+    except WebSocketDisconnect:
+        print("Клиент отключился")
