@@ -1,8 +1,9 @@
 from fastapi import Depends
 from fastapi import FastAPI, WebSocket
 from fastapi_users import FastAPIUsers
+from starlette.websockets import WebSocketDisconnect
 
-from src.admin.router import router as router_admin
+from src.admin.router import router as router_admin, websocket_endpoint
 
 # from src.admin.htmlAdmin import htmlAdmin
 from src.auth.base_config import auth_backend
@@ -59,9 +60,4 @@ def protected_route(user: User = Depends(current_user)):
 app.include_router(router_admin)
 
 
-@app.websocket("/ws")
-async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    while True:
-        data = await websocket.receive_text()
-        await websocket.send_text(f"Message text was: {data}")
+app.websocket("/ws")(websocket_endpoint)

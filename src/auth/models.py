@@ -1,6 +1,5 @@
 from datetime import datetime
 
-from pydantic import EmailStr
 from sqlalchemy import (
     MetaData,
     Integer,
@@ -31,7 +30,7 @@ user = Table(
     Column("email", String, nullable=False),
     Column("hashed_password", String, nullable=False),
     Column("role_id", Integer, ForeignKey(role.c.id)),
-    Column("registered_at", TIMESTAMP, default=datetime.utcnow, json_encoders=True),
+    Column("registered_at", TIMESTAMP, default=datetime.utcnow),
     Column("is_active", Boolean, default=True, nullable=False),
     Column("is_superuser", Boolean, default=False, nullable=False),
     Column("is_verified", Boolean, default=False, nullable=False),
