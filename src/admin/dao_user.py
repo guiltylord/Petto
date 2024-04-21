@@ -1,6 +1,8 @@
 # dao.py – DAO (Data Access Object) является распространённым шаблоном и подходит для файлов,
 # содержащих классы или функции, которые производят непосредственный доступ к данным.
 
+from sqlalchemy import select, func
+
 from src.database import async_session_maker, User
 
 
@@ -30,22 +32,12 @@ async def getUserInfo(user_id: int):
         if user is not None:
             # Преобразование экземпляра модели User в словарь
             user_data = {
-                "id": user.id,
-                "username": user.username,
-                "email": user.email,
-                "hashed_password": user.hashed_password,
-                "role_id": user.role_id,
-                "registered_at": user.registered_at,
-                "is_active": user.is_active,
-                "is_superuser": user.is_superuser,
-                "is_verified": user.is_verified,
+                column.name: getattr(user, column.name)
+                for column in user.__table__.columns
             }
             return user_data
         else:
             return None
-
-
-from sqlalchemy import select, func
 
 
 async def getUserWeight(user_id: int):
