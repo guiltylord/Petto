@@ -1,7 +1,7 @@
-from typing import Optional
+from typing import Optional, Generic, TypeVar
 
 from fastapi_users import schemas, models
-from fastapi_users.schemas import BaseUserCreate
+from fastapi_users.schemas import BaseUserCreate, model_dump, CreateUpdateDictModel
 from pydantic import EmailStr, BaseModel
 
 
@@ -9,20 +9,20 @@ class UserRead(schemas.BaseUser[int]):
     id: int
     email: EmailStr
     username: str
-    is_active: bool = True
-    is_superuser: bool = False
-    is_verified: bool = False
+    name: str
+    surname: str
 
 
-class UserCreate(schemas.BaseUserCreate):
-    id: int
-    username: str
-    email: EmailStr
-    password: str
-    role_id: int
-    is_active: Optional[bool] = True
-    is_superuser: Optional[bool] = False
-    is_verified: Optional[bool] = False
+
+# class UserCreate(schemas.BaseUserCreate):
+#     id: int
+#     username: str
+#     email: EmailStr
+#     password: str
+#     role_id: int
+#     is_active: Optional[bool] = True
+#     is_superuser: Optional[bool] = False
+#     is_verified: Optional[bool] = False
 
 
 class UserCreateIn(BaseModel):
