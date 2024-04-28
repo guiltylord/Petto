@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from fastapi_users import FastAPIUsers
 from starlette.responses import HTMLResponse
 from starlette.websockets import WebSocket, WebSocketDisconnect
 
@@ -9,13 +10,24 @@ from src.admin.dao_user import (
     getUserWeight,
 )
 from src.admin.htmlAdmin import htmlAdmin
+from src.auth.base_config import auth_backend
+from src.auth.manager import get_user_manager
+from src.auth.models import User
+
+fastapi_users = FastAPIUsers[User, int](
+    get_user_manager,
+    [auth_backend],
+)
+current_user = fastapi_users.current_user()
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 
 
 @router.get("/")
-async def get_info():
-    return HTMLResponse(htmlAdmin)
+async def get_info(user: User = Depends(current_user)):
+    if user.is_superuser == True:
+        return HTMLResponse(htmlAdmin)
+    return "U have no access"
 
 
 async def websocket_endpoint(websocket: WebSocket):
