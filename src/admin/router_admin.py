@@ -56,7 +56,7 @@ async def websocket_endpoint(websocket: WebSocket):
 
             elif command == "get_user_data":
                 user_id = int(message_data)  # Передаем user_id как целое число
-                user_info = await getUserInfo(user_id)
+                user_info = await getUserInfo(user_id, True)
                 await websocket.send_text(str(user_info))
                 print(user_info)
             elif command == "user_weight":

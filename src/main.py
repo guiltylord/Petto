@@ -2,6 +2,7 @@ from fastapi import Depends
 from fastapi import FastAPI
 from fastapi_users import FastAPIUsers
 
+from src.admin.dao_user import getUserInfo
 from src.admin.router_admin import router as router_admin, websocket_endpoint
 
 # from src.admin.htmlAdmin import htmlAdmin
@@ -12,10 +13,16 @@ from src.auth.schemas import UserRead, UserCreateIn
 
 app = FastAPI(title="Petto")
 
+fastapi_users = FastAPIUsers[User, int](
+    get_user_manager,
+    [auth_backend],
+)
+current_user = fastapi_users.current_user()
+
 
 @app.get("/user/{user_id}")
-def get_user(user_id):
-    return "not ready"
+async def get_user(user_id: int):
+    return await getUserInfo(user_id)
 
 
 @app.post("/user/{user_id}")
@@ -24,11 +31,6 @@ def change_name(user_id: int, new_name):
     # return fake_users.get(user_id)
     return "not ready too"
 
-
-fastapi_users = FastAPIUsers[User, int](
-    get_user_manager,
-    [auth_backend],
-)
 
 app.include_router(
     fastapi_users.get_auth_router(auth_backend),
@@ -42,9 +44,6 @@ app.include_router(
     prefix="/auth",
     tags=["auth"],
 )
-
-
-current_user = fastapi_users.current_user()
 
 
 @app.get("/protected-route")

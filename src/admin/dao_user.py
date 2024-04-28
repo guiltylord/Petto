@@ -25,17 +25,26 @@ async def getHashUser(user_id: int):
         return user_data
 
 
-async def getUserInfo(user_id: int):
+async def getUserInfo(user_id: int, is_admin=False):
     async with async_session_maker() as session:
         query = select(User).where(User.id == user_id)
         result = await session.execute(query)
         user = result.scalar_one_or_none()
         if user is not None:
             # Преобразование экземпляра модели User в словарь
-            user_data = {
-                column.name: getattr(user, column.name)
-                for column in user.__table__.columns
-            }
+            if is_admin:
+                user_data = {
+                    column.name: getattr(user, column.name)
+                    for column in user.__table__.columns
+                }
+            else:
+                user_data = {
+                    "id": user.id,
+                    "username": user.username,
+                    "name": user.name,
+                    "surname": user.surname,
+                    "email": user.email,
+                }
             return user_data
         else:
             return None
