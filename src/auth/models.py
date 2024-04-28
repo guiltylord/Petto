@@ -5,7 +5,6 @@ from sqlalchemy import (
     MetaData,
     Integer,
     String,
-    TIMESTAMP,
     ForeignKey,
     Table,
     Column,
@@ -13,7 +12,7 @@ from sqlalchemy import (
     Boolean,
     DateTime,
 )
-from sqlalchemy.orm import Mapped, mapped_column, DeclarativeMeta, declarative_base
+from sqlalchemy.orm import Mapped, mapped_column
 
 from src.database import Base
 
