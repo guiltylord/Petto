@@ -25,7 +25,7 @@ router = APIRouter(prefix="/admin", tags=["Admin"])
 
 @router.get("/")
 async def get_info(user: User = Depends(current_user)):
-    if user.is_superuser == True:
+    if user.is_superuser:
         return HTMLResponse(htmlAdmin)
     return "U have no access"
 

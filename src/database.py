@@ -1,15 +1,9 @@
-from datetime import datetime
 from typing import AsyncGenerator
-
-from fastapi import Depends
-from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
-from sqlalchemy import String, Boolean, Integer, ForeignKey, DateTime
 
 # from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
-from sqlalchemy.orm import sessionmaker, Mapped, mapped_column
-
+from sqlalchemy.orm import sessionmaker
 
 from src.config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
 
