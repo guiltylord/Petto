@@ -3,7 +3,8 @@
 
 from sqlalchemy import select, func
 
-from src.database import async_session_maker, User
+from src.auth.models import User
+from src.database import async_session_maker
 
 
 # TODO: сделать проверку исключений везде чтоб сервак не падал

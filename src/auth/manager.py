@@ -2,9 +2,12 @@ from typing import Optional
 
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, IntegerIDMixin, exceptions, models, schemas
+from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.auth.models import User
 from src.config import SECRET_AUTH
-from src.database import User, get_user_db
+from src.database import get_async_session
 
 SECRET = SECRET_AUTH
 
@@ -46,6 +49,10 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
 
 
 # TODO: есть доп функции on_after_forgot_password() и on_after_request_verify() в родительском классе
+
+
+async def get_user_db(session: AsyncSession = Depends(get_async_session)):
+    yield SQLAlchemyUserDatabase(session, User)
 
 
 async def get_user_manager(user_db=Depends(get_user_db)):
