@@ -27,6 +27,8 @@ class UserCreate(schemas.BaseUserCreate):
 
 class UserCreateIn(BaseModel):
     username: str
+    name: str
+    surname: str
     email: EmailStr
     password: str
 
