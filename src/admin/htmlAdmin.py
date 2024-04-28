@@ -30,12 +30,14 @@ htmlAdmin = """
                 message.appendChild(content);
                 messages.appendChild(message);
             };
-
+            
+            //Хэш пароля юзера
             function sendHashUserQuery() {
                 var idInput = document.getElementById("userID");
                 ws.send("get_hash_user:" + idInput.value); // Отправляем команду с данными
             }
-
+            
+            //Количество зарегистрированных пользователей
             function sendCountUsers() {
                 ws.send('sendAnother');
             }
@@ -46,16 +48,16 @@ htmlAdmin = """
                 ws.send("getEcho:" + echoInput.value); // Отправляем команду с данными
             }
             
+            //Получить пользователя
             function sendUserRequest() {
                 var idInput = document.getElementById("userID");
                 ws.send("get_user_data:" + idInput.value); // Отправляем команду с данными
-                idInput.value = '';
             }
             
+            //Место, занимаемое юзером на диске
             function sendUserWeightQuery() {
                 var idInput = document.getElementById("userID");
                 ws.send("user_weight:" + idInput.value); // Отправляем команду с данными
-                idInput.value = '';
             }
 
 
