@@ -1,18 +1,14 @@
-import json
-from typing import Callable
-
 from fastapi import APIRouter
 from starlette.responses import HTMLResponse
 from starlette.websockets import WebSocket, WebSocketDisconnect
 
-from src.admin.htmlAdmin import htmlAdmin
 from src.admin.dao_user import (
     getUserInfo,
     getRowCount,
     getHashUser,
     getUserWeight,
 )
-from src.database import get_async_session, async_session_maker
+from src.admin.htmlAdmin import htmlAdmin
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 

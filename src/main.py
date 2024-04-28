@@ -1,14 +1,13 @@
 from fastapi import Depends
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI
 from fastapi_users import FastAPIUsers
-from starlette.websockets import WebSocketDisconnect
 
-from src.admin.router import router as router_admin, websocket_endpoint
+from src.admin.router_admin import router as router_admin, websocket_endpoint
 
 # from src.admin.htmlAdmin import htmlAdmin
 from src.auth.base_config import auth_backend
 from src.auth.manager import get_user_manager
-from src.auth.schemas import UserCreate, UserRead
+from src.auth.schemas import UserCreate, UserRead, UserCreateIn
 from src.database import User
 
 app = FastAPI(title="Petto")
@@ -37,8 +36,9 @@ app.include_router(
     tags=["auth"],
 )
 
+
 app.include_router(
-    fastapi_users.get_register_router(UserRead, UserCreate),
+    fastapi_users.get_register_router(UserRead, UserCreateIn),
     prefix="/auth",
     tags=["auth"],
 )

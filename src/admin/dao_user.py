@@ -6,7 +6,7 @@ from sqlalchemy import select, func
 from src.database import async_session_maker, User
 
 
-# TODO: сделать проверку исключений чтоб сервак не падал
+# TODO: сделать проверку исключений везде чтоб сервак не падал
 async def getRowCount():
     async with async_session_maker() as session:
         result = await session.execute(select(func.count()).select_from(User))
