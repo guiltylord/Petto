@@ -1,7 +1,7 @@
 """Declarative way to  make db
 
 Revision ID: 3dd0b9bcdbe4
-Revises: 3cd22bb9357a
+Revises: b555e19e282f
 Create Date: 2024-04-28 17:36:48.470886
 
 """
@@ -12,8 +12,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '3dd0b9bcdbe4'
-down_revision: Union[str, None] = '3cd22bb9357a'
+revision: str = "3dd0b9bcdbe4"
+down_revision: Union[str, None] = "b555e19e282f"
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 

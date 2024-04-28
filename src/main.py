@@ -8,8 +8,7 @@ from src.admin.router_admin import router as router_admin, websocket_endpoint
 from src.auth.base_config import auth_backend
 from src.auth.manager import get_user_manager
 from src.auth.models import User
-from src.auth.schemas import UserCreate, UserRead, UserCreateIn
-
+from src.auth.schemas import UserRead, UserCreateIn
 
 app = FastAPI(title="Petto")
 
