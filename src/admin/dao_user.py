@@ -24,7 +24,7 @@ async def getHashUser(user_id: int):
         result = await session.execute(query)
         user = result.scalar_one_or_none()
         if user:
-            user_data = {"hash": user.hashed_password}
+            user_data = f"User with id {user_id} has hash {user.hashed_password}"
             return user_data
         return f"User with id {user_id} does not exist."
 
@@ -69,7 +69,7 @@ async def getUserWeight(user_id: int):
             )
             result = await session.execute(select(size_sum))
             row_size = result.scalar_one()
-            return row_size
+            return f"User with id {user_id} has {row_size} bytes of data."
 
         else:
             return f"User with id {user_id} does not exist."
