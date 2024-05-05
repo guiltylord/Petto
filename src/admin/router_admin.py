@@ -36,6 +36,9 @@ from fastapi import WebSocket
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     try:
+        await websocket.send_text(
+            "Здравствуйте, админ! Система запущена и готова к работе."
+        )
         while True:
             await process_received_data(await websocket.receive_text(), websocket)
     except WebSocketDisconnect:
