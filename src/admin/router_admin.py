@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from fastapi_users import FastAPIUsers
 from starlette.responses import HTMLResponse
-from starlette.websockets import WebSocket, WebSocketDisconnect
+from starlette.websockets import WebSocketDisconnect
 
 from src.admin.dao_user import (
     getUserInfo,
@@ -28,47 +28,6 @@ async def get_info(user: User = Depends(current_user)):
     if user.is_superuser:
         return HTMLResponse(htmlAdmin)
     return "U have no access"
-
-
-# async def websocket_endpoint(websocket: WebSocket):
-#     await websocket.accept()
-#     try:
-#         while True:
-#             data = await websocket.receive_text()
-#             # Разделяем сообщение на команду и данные
-#             command, _, message_data = data.partition(":")
-#             flag = True
-#             if command == "sendAnother":
-#                 result = await getRowCount()
-#                 await websocket.send_text(
-#                     f"Кол-во зарегистрированных пользователей: {result}"
-#                 )
-#                 flag = False
-#
-#             if message_data == "" and flag:
-#                 await websocket.send_text("Введите Id пользователя")
-#                 flag = False
-#             if command == "get_hash_user" and flag:
-#                 user_id = int(message_data)
-#                 hash_user = await getHashUser(user_id)
-#                 await websocket.send_text(hash_user)
-#                 print(hash_user)
-#
-#             elif command == "getEcho" and flag:
-#                 await websocket.send_text(f"Эхо: {message_data}")
-#
-#             elif command == "get_user_data" and flag:
-#                 user_id = int(message_data)
-#                 user_info = await getUserInfo(user_id, True)
-#                 await websocket.send_text(str(user_info))
-#                 print(user_info)
-#
-#             elif command == "user_weight" and flag:
-#                 user_id = int(message_data)
-#                 user_info = await getUserWeight(user_id)
-#                 await websocket.send_text(str(user_info))
-#     except WebSocketDisconnect:
-#         print("Клиент отключился")
 
 
 from fastapi import WebSocket
@@ -127,6 +86,3 @@ async def process_user_weight_command(user_id_str, websocket):
     user_id = int(user_id_str)
     user_info = await getUserWeight(user_id)
     await websocket.send_text(str(user_info))
-
-
-# Здесь должны быть определены ваши асинхронные функции: getRowCount(), getHashUser(user_id), getUserInfo(user_id, is_full), getUserWeight(user_id)
