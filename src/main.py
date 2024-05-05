@@ -27,8 +27,6 @@ async def get_user(user_id: int):
 
 @app.post("/user/{user_id}")
 def change_name(user_id: int, new_name):
-    # fake_users[user_id] = new_name
-    # return fake_users.get(user_id)
     return "not ready too"
 
 
