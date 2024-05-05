@@ -45,8 +45,7 @@ def protected_route(user: User = Depends(current_user)):
 
 
 @app.get("/unprotected-route")
-def protected_route(user: User = Depends(current_user)):
-    # def protected_route(user: User = Depends(current_user)):
+def protected_route():
     return f"Hello, noname"
 
 
