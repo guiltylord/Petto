@@ -1,7 +1,7 @@
 # dao.py – DAO (Data Access Object) является распространённым шаблоном и подходит для файлов,
 # содержащих классы или функции, которые производят непосредственный доступ к данным.
 
-from sqlalchemy import select, func
+from sqlalchemy import select, func, exc
 
 from src.auth.models import User
 from src.database import async_session_maker
@@ -10,7 +10,10 @@ from src.database import async_session_maker
 # TODO: сделать проверку исключений везде чтоб сервак не падал
 async def getRowCount():
     async with async_session_maker() as session:
-        result = await session.execute(select(func.count()).select_from(User))
+        try:
+            result = await session.execute(select(func.count()).select_from(User))
+        except ValueError:
+            return "User with current id not found"
         count = result.scalar_one()
         return count
 
@@ -19,10 +22,11 @@ async def getHashUser(user_id: int):
     async with async_session_maker() as session:
         query = select(User).where(User.id == user_id)
         result = await session.execute(query)
-        user = result.scalar_one()
-        if user is not None:
+        user = result.scalar_one_or_none()
+        if user:
             user_data = {"hash": user.hashed_password}
-        return user_data
+            return user_data
+        return f"User with id {user_id} does not exist."
 
 
 async def getUserInfo(user_id: int, is_admin=False):
@@ -30,7 +34,8 @@ async def getUserInfo(user_id: int, is_admin=False):
         query = select(User).where(User.id == user_id)
         result = await session.execute(query)
         user = result.scalar_one_or_none()
-        if user is not None:
+
+        if user:
             # Преобразование экземпляра модели User в словарь
             if is_admin:
                 user_data = {
@@ -47,7 +52,7 @@ async def getUserInfo(user_id: int, is_admin=False):
                 }
             return user_data
         else:
-            return None
+            return f"User with id {user_id} does not exist."
 
 
 async def getUserWeight(user_id: int):
@@ -67,4 +72,4 @@ async def getUserWeight(user_id: int):
             return row_size
 
         else:
-            raise ValueError(f"User with id {user_id} does not exist.")
+            return f"User with id {user_id} does not exist."

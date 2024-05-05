@@ -42,7 +42,7 @@ async def websocket_endpoint(websocket: WebSocket):
             if command == "get_hash_user":
                 user_id = int(message_data)
                 hash_user = await getHashUser(user_id)
-                await websocket.send_text(f"Хэш юзера {message_data}: {hash_user}")
+                await websocket.send_text(hash_user)
                 print(hash_user)
 
             elif command == "sendAnother":
