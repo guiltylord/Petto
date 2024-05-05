@@ -11,6 +11,13 @@ htmlAdmin = """
             #echoSection {
                 align-self: flex-start;
             }
+            .buttonsContainer {
+                display: flex;
+                flex-direction: column;
+            }
+            .buttonsContainer button {
+                margin-bottom: 10px; /* Добавляем отступ между кнопками */
+            }
         </style>
     </head>
     <body>
@@ -18,12 +25,12 @@ htmlAdmin = """
         <div class="wrapper">
         <div>
             <input type="number" id="userID" placeholder="Введите id user" autocomplete="off"/>
-            <div>
+            <div class="buttonsContainer">
                 <button onclick="sendHashUserQuery()">Хэш пароля юзера</button>
                 <button onclick="sendUserWeightQuery()">Место, занимаемое юзером на диске</button> 
                 <button onclick="sendUserRequest()">Получить пользователя по id</button>
+                <button onclick="sendCountUsers()">Количество зарегистрированных пользователей</button>
             </div>
-            <button onclick="sendCountUsers()">Количество зарегистрированных пользователей</button>
         </div>
         <div id="echoSection">
             <input type="text" id="echoText" placeholder="Введите строку" autocomplete="off"/>
