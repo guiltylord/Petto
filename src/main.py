@@ -25,11 +25,6 @@ async def get_user(user_id: int):
     return await getUserInfo(user_id)
 
 
-@app.post("/user/{user_id}")
-def change_name(user_id: int, new_name):
-    return "not ready too"
-
-
 app.include_router(
     fastapi_users.get_auth_router(auth_backend),
     prefix="/auth/jwt",
@@ -51,10 +46,9 @@ def protected_route(user: User = Depends(current_user)):
 
 @app.get("/unprotected-route")
 def protected_route(user: User = Depends(current_user)):
+    # def protected_route(user: User = Depends(current_user)):
     return f"Hello, noname"
 
 
 app.include_router(router_admin)
-
-
 app.websocket("/ws")(websocket_endpoint)
