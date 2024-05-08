@@ -82,7 +82,10 @@ async def process_get_echo_command(message_data, websocket):
 async def process_get_user_data_command(user_id_str, websocket):
     user_id = int(user_id_str)
     user_info = await getUserInfo(user_id, True)
-    await websocket.send_text(str(user_info))
+    if user_info is None:
+        await websocket.send_text(f"User with id {user_id} does not exist.")
+    else:
+        await websocket.send_text(str(user_info))
 
 
 async def process_user_weight_command(user_id_str, websocket):
