@@ -52,7 +52,7 @@ async def getUserInfo(user_id: int, is_admin=False):
                 }
             return user_data
         else:
-            return f"User with id {user_id} does not exist."
+            return None
 
 
 async def getUserWeight(user_id: int):

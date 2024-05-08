@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Информация о пользователе</title>
+</head>
+<body>
+    {% if user %}
+        <h1>Пользователь: {{ user.username }}</h1>
+        <p>Имя: {{ user.name }}</p>
+        <p>Фамилия: {{ user.surname }}</p>
+        <p>Email: {{ user.email }}</p>
+        {% if user.is_admin %}
+            <p>Пользователь является администратором</p>
+        {% endif %}
+    {% else %}
+        <p>Пользователь не найден.</p>
+    {% endif %}
+</body>
+</html>
