@@ -9,7 +9,7 @@ from src.admin.dao_user import (
     getHashUser,
     getUserWeight,
 )
-from src.admin.htmlAdmin import htmlAdmin
+from src.templates.htmlAdmin import htmlAdmin
 from src.auth.base_config import auth_backend
 from src.auth.manager import get_user_manager
 from src.auth.models import User
