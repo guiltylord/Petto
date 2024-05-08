@@ -1,19 +1,193 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+    <meta charset="UTF-8">
     <title>Информация о пользователе</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #81a737.;
+            color: #333;
+        }
+
+        .content-area {
+            background-color: #9cad82;
+            /* Укажите нужный цвет фона здесь */
+            padding-top: 20px;
+            /* Отступ сверху, чтобы отделить от карточки профиля */
+            min-height: calc(100vh);
+            /* Full height minus header height */
+            width: 100%;
+            /* Ширина content-area */
+            box-sizing: border-box;
+            /* Вычисление ширины с учетом padding */
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            /* Высота header */
+            background-color: #f1f1f1;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e6e6e6;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            /* Убедитесь, что header всегда сверху */
+        }
+
+        /* Создадим стили для кружков */
+        .circle {
+            width: 20px;
+            /* ширина кружка */
+            height: 20px;
+            /* высота кружка */
+            border-radius: 50%;
+            /* делаем круг */
+            background-color: #333;
+            /* фон кружка, заметный на белом фоне */
+        }
+
+        .header .circle {
+            margin-right: 10px;
+            /* Отступ справа для всех кружков */
+        }
+
+        .circles-right {
+            position: absolute;
+            right: 20px;
+            display: flex;
+            < !-- flex-direction: column;
+            -->align-items: center;
+            justify-content: center;
+        }
+
+        /* Добавляем отступы между кружками справа */
+        .circles-right .circle:not(:last-child) {
+            margin-bottom: 10px;
+            /* Отступ снизу для кружков, кроме последнего */
+        }
+
+        .profile-card {
+            background-color: #d5e5c1;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+            /* Отступ сверху, давайте больше места для header */
+            align-self: flex-start;
+            /* Выравниваем карточку слева */
+        }
+
+        /* выравниваем содержимое карточки по левому краю */
+        .profile-card * {
+            margin-left: 0;
+            text-align: left;
+        }
+
+
+
+        h1 {
+            margin: 0;
+            color: #006400;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+
+        .counts {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin: 20px auto;
+        }
+
+        .count-card {
+            text-align: center;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: auto auto;
+            grid-gap: 20px;
+            padding: 0 20px 20px;
+        }
+
+        .post {
+            background-color: #fff;
+            border: solid 1px #ddd;
+            border-radius: 10px;
+            padding: 10px;
+            position: relative;
+        }
+
+        .icon {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            color: #333;
+        }
+
+        .verified-badge {
+            color: #006400;
+        }
+
+        .edit-icon {
+            float: right;
+            color: #333;
+        }
+    </style>
 </head>
+
 <body>
-    {% if user %}
-        <h1>Пользователь: {{ user.username }}</h1>
-        <p>Имя: {{ user.name }}</p>
-        <p>Фамилия: {{ user.surname }}</p>
-        <p>Email: {{ user.email }}</p>
-        {% if user.is_admin %}
-            <p>Пользователь является администратором</p>
-        {% endif %}
-    {% else %}
-        <p>Пользователь не найден.</p>
-    {% endif %}
+    <div class="header">
+        <div class="circle"></div> <!-- Кружок слева -->
+        <div class="circles-right">
+            <div class="circle"></div> <!-- Верхний центральный кружок -->
+            <div class="circle"></div> <!-- Средний центральный кружок -->
+            <div class="circle"></div> <!-- Нижний центральный кружок -->
+        </div>
+    </div>
+
+
+    <div class="content-area">
+        <div class="profile-card">
+            {% if user %}
+            <h1>{{ user.username }} <span class="verified-badge">✔</span></h1>
+            <p>{{ user.name }} {{ user.surname }}</p>
+            <p>{{ user.email }}</p>
+            <div class="counts">
+                <div class="count-card">
+                    <p>Посты</p>
+                    <p>{{ user.posts_count }}</p>
+                </div>
+                <div class="count-card">
+                    <p>Подписчики</p>
+                    <p>{{ user.followers }}</p>
+                </div>
+                <div class="count-card">
+                    <p>Подписки</p>
+                    <p>{{ user.subscribed }}</p>
+                </div>
+            </div>
+            <p class="edit-icon">✏</p>
+            {% else %}
+            <p>Пользователь не найден.</p>
+            {% endif %}
+        </div>
+
+    </div>
+    <!-- Здесь может быть другой контент -->
+
 </body>
+
 </html>
