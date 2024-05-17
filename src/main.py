@@ -49,17 +49,15 @@ app.include_router(
 
 @app.get("/me")
 async def protected_route(request: Request, user: User = Depends(current_user)):
-    if user is None:
-        return templates.TemplateResponse("not_auth.html", {"request": request})
     user_info = await getUserInfo(user.id)
     return templates.TemplateResponse(
         "user_info.html", {"request": request, "user": user_info}
     )
 
 
-@app.get("/unprotected-route")
-def protected_route():
-    return f"Hello, noname"
+@app.get("/not-auth")
+def protected_route(request: Request):
+    return templates.TemplateResponse("not_auth.html", {"request": request})
 
 
 app.include_router(router_admin)

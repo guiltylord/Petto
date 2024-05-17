@@ -9,10 +9,10 @@ from src.admin.dao_user import (
     getHashUser,
     getUserWeight,
 )
-from src.templates.htmlAdmin import htmlAdmin
 from src.auth.base_config import auth_backend
 from src.auth.manager import get_user_manager
 from src.auth.models import User
+from src.templates.htmlAdmin import htmlAdmin
 
 fastapi_users = FastAPIUsers[User, int](
     get_user_manager,
@@ -45,7 +45,6 @@ async def websocket_endpoint(websocket: WebSocket):
         print("Клиент отключился")
 
 
-# Разделяем сообщение на команду и данные
 async def process_received_data(data, websocket):
     command, _, message_data = data.partition(":")
     if command == "sendAnother":

@@ -36,7 +36,6 @@ async def getUserInfo(user_id: int, is_admin=False):
         user = result.scalar_one_or_none()
 
         if user:
-            # Преобразование экземпляра модели User в словарь
             if is_admin:
                 user_data = {
                     column.name: getattr(user, column.name)
@@ -57,7 +56,6 @@ async def getUserInfo(user_id: int, is_admin=False):
 
 async def getUserWeight(user_id: int):
     async with async_session_maker() as session:
-        # Сначала извлекаем пользователя по ID
         stmt = select(User).where(User.id == user_id)
         result = await session.execute(stmt)
         user_instance = result.scalar_one_or_none()

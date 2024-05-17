@@ -48,9 +48,6 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
         return created_user
 
 
-# TODO: есть доп функции on_after_forgot_password() и on_after_request_verify() в родительском классе
-
-
 async def get_user_db(session: AsyncSession = Depends(get_async_session)):
     yield SQLAlchemyUserDatabase(session, User)
 
