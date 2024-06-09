@@ -1,7 +1,7 @@
 # dao.py – DAO (Data Access Object) является распространённым шаблоном и подходит для файлов,
 # содержащих классы или функции, которые производят непосредственный доступ к данным.
 
-from sqlalchemy import select, func, exc
+from sqlalchemy import select, func
 
 from src.auth.models import User
 from src.database import async_session_maker
