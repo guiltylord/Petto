@@ -3,9 +3,13 @@ from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi_users import FastAPIUsers
 from starlette.templating import Jinja2Templates
-
 from src.admin.dao_user import getUserInfo
 from src.admin.router_admin import router as router_admin, websocket_endpoint
+from src.tasks.models import Order
+from src.tasks.hz import (
+    create_order,
+    get_email_template_dashboard,
+)
 
 templates = Jinja2Templates(directory="src/templates")
 
@@ -45,6 +49,16 @@ app.include_router(
     prefix="/auth",
     tags=["auth"],
 )
+
+
+@app.post("/order")
+def add_order(order: Order):
+    return f"{create_order.delay(order.customer_name, order.order_quantity)}"
+
+
+@app.post("/dashboard")
+def get_dashboard_report(user=Depends(current_user)):
+    return f"{get_email_template_dashboard.delay(user.username)}"
 
 
 @app.get("/me")
