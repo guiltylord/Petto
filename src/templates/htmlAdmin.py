@@ -75,7 +75,7 @@ htmlAdmin = """<!DOCTYPE html>
 </head>
 
 <body>
-    <h1>Панель администратора Petto</h1>
+    <h1>Панель администратора MotylDDX</h1>
     <div class="wrapper">
         <div class="buttonsContainer">
             <input type="number" id="userID" placeholder="Введите id пользователя" autocomplete="off" />

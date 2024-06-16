@@ -5,6 +5,7 @@ from fastapi_users import FastAPIUsers
 from starlette.templating import Jinja2Templates
 from src.admin.dao_user import getUserInfo
 from src.admin.router_admin import router as router_admin, websocket_endpoint
+from src.chat.models import message
 from src.tasks.models import Order
 from src.tasks.hz import (
     create_order,
@@ -18,7 +19,7 @@ from src.auth.manager import get_user_manager
 from src.auth.models import User
 from src.auth.schemas import UserRead, UserCreateIn
 
-app = FastAPI(title="Petto")
+app = FastAPI(title="MotylDDX")
 
 fastapi_users = FastAPIUsers[User, int](
     get_user_manager,
@@ -67,6 +68,14 @@ async def protected_route(request: Request, user: User = Depends(current_user)):
     return templates.TemplateResponse(
         "user_info.html", {"request": request, "user": user_info}
     )
+
+
+manager = ChatManager()
+
+
+@app.post("/lilka")
+def lolka(receiver_id: str, content: str, user=Depends(current_user)):
+    return manager.send_message(user.id, receiver_id, content)
 
 
 @app.get("/not-auth")
